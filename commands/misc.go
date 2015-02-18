@@ -1,19 +1,21 @@
 package commands
 
 import (
-	"fmt"
 	"os"
+	"path"
 
 	"github.com/codegangsta/cli"
 )
 
 func configFlag() cli.StringFlag {
-	homePath := os.Getenv("HOME")
-	configName := ".config.bullet"
+	configPath := os.Getenv("BULLET_CONFIG")
+	if len(configPath) == 0 {
+		configPath = path.Join(os.Getenv("HOME"), ".config.bullet")
+	}
 
 	flag := cli.StringFlag{
 		Name:  "config,c",
-		Value: fmt.Sprintf("%s/%s", homePath, configName),
+		Value: configPath,
 		Usage: "The path of your config file",
 	}
 
